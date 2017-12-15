@@ -3,7 +3,6 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../../services/blog.service';
 
-
 @Component({
   selector: 'app-edit-blog',
   templateUrl: './edit-blog.component.html',
@@ -11,12 +10,12 @@ import { BlogService } from '../../../services/blog.service';
 })
 export class EditBlogComponent implements OnInit {
 
-message;
-messageClass;
-blog;
-processing = false;
-currentUrl;
-loading = true;
+  message;
+  messageClass;
+  blog;
+  processing = false;
+  currentUrl;
+  loading = true;
 
   constructor(
     private location: Location,
@@ -41,23 +40,20 @@ loading = true;
       }
     });
   }
-
-  goBack(){
+  goBack() {
     this.location.back();
   }
 
   ngOnInit() {
     this.currentUrl = this.activatedRoute.snapshot.params;
     this.blogService.getSingleBlog(this.currentUrl.id).subscribe(data => {
-      this.blog = data.blog;
       if (!data.success) {
         this.messageClass = 'alert alert-danger';
         this.message = data.message;
       } else {
-        this.blog = data.blog; 
+        this.blog = data.blog;
         this.loading = false;
       }
     });
   }
-
 }

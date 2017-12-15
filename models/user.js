@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose'); 
+mongoose.Promise = global.Promise; 
+const Schema = mongoose.Schema; 
 const bcrypt = require('bcrypt-nodejs');
+
 
 let emailLengthChecker = (email) => {
   if (!email) {
@@ -21,7 +22,6 @@ let validEmailChecker = (email) => {
   } else {
     const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     return regExp.test(email);
-    console.log(regExp.test(email));
   }
 };
 
@@ -37,10 +37,9 @@ const emailValidators = [
 ];
 
 let usernameLengthChecker = (username) => {
-  
   if (!username) {
-    return false; 
-  } else { 
+    return false;
+  } else {
     if (username.length < 3 || username.length > 15) {
       return false; 
     } else {
@@ -58,6 +57,7 @@ let validUsername = (username) => {
   }
 };
 
+
 const usernameValidators = [
   {
     validator: usernameLengthChecker,
@@ -71,22 +71,23 @@ const usernameValidators = [
 
 let passwordLengthChecker = (password) => {
   if (!password) {
-    return false; 
+    return false;
   } else {
     if (password.length < 8 || password.length > 35) {
       return false;
     } else {
-      return true;
+      return true; 
     }
   }
 };
 
+
 let validPassword = (password) => {
   if (!password) {
-    return false;
+    return false; 
   } else {
     const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/);
-    return regExp.test(password); 
+    return regExp.test(password);
   }
 };
 
@@ -105,6 +106,8 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
   username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators },
   password: { type: String, required: true, validate: passwordValidators }
+},{
+  usePushEach: true
 });
 
 userSchema.pre('save', function(next) {
